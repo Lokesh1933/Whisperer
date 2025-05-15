@@ -1,10 +1,11 @@
 // HINTS:
 // 1. Import express and axios
-import express from express
-import axios from axios
-import dotenv from dotenv
+import express from "express"
+import axios from "axios"
+import dotenv from "dotenv"
 dotenv.config()
 const API_URL = process.env.API_URI
+const port = 3000
 
 // 2. Create an express app and set the port number.
 const app = express()
@@ -18,11 +19,11 @@ app.get("/",async (req,res) => {
     // secret and the username of the secret.
     try {
         const result = await axios.get(API_URL)
-        // res.render("index.ejs",{
-        //     secret: result.data.secret,
-        //     username: result.data.username
-        // })
-        console.log(result.data)
+        res.render("index.ejs",{
+            secret: result.data.secret,
+            user: result.data.username
+        })
+        // console.log(result.data)
     } catch (error) {
         console.log(error.response.data);
         res.status(500);
@@ -31,3 +32,6 @@ app.get("/",async (req,res) => {
 
 
 // 6. Listen on your predefined port and start the server.
+app.listen(port , () => {
+    console.log(`Server is live and running on port ${port}`)
+})
